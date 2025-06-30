@@ -1131,7 +1131,7 @@
 	 
 	 Nói cách khác, điểm $z$ thuộc kết quả nếu khi dịch $B$ đến $z$, toàn bộ $B$ nằm trong vùng foreground (giá trị 1) của ảnh $X$.
 	 
-	 \section*{2. Ý nghĩa trong so khớp mẫu (Template Matching)}
+	 \subsection*{2. Ý nghĩa trong so khớp mẫu (Template Matching)}
 	 
 	 Phép toán erosion có thể được xem là một phương pháp kiểm tra:
 	 
@@ -1166,4 +1166,101 @@
 	 \item So với template matching thông thường, erosion yêu cầu sự khớp hoàn toàn và chỉ áp dụng cho ảnh nhị phân.
 	 \item Ý nghĩa này rất hữu ích trong nhận dạng mẫu, phát hiện biên hình học, hoặc kiểm tra sự hiện diện của cấu trúc trong ảnh.
 	 \end{itemize}
+	 
+	 \section{Cho ảnh A và phần tử kết cấu B. Thực hiện hai phép toán A opening B và A closing B (slide 26 và 31 Lecture 8)?}
+	 
+	 \subsection*{1. Binary Opening: \texorpdfstring{$A \circ B$}{}}
+	 
+	 \textbf{Định nghĩa:}
+	 
+	 \[
+	 A \circ B = (A \ominus B) \oplus B
+	 \]
+	 
+	 \textbf{Ý nghĩa:}
+	 \begin{itemize}
+	 	\item Xóa bỏ các chi tiết nhỏ hơn phần tử kết cấu \( B \).
+	 	\item Làm trơn biên ngoài và loại bỏ các mấu nhô nhỏ.
+	 	\item Bảo toàn hình dạng lớn hơn \( B \).
+	 \end{itemize}
+	 
+	 \vspace{1cm}
+	 \subsection*{2. Binary Closing: \texorpdfstring{$A \bullet B$}{}}
+	 
+	 \textbf{Định nghĩa:}
+	 
+	 \[
+	 A \bullet B = (A \oplus B) \ominus B
+	 \]
+	 
+	 \textbf{Ý nghĩa:}
+	 \begin{itemize}
+	 	\item Lấp đầy các lỗ nhỏ và khe hẹp trong ảnh.
+	 	\item Làm trơn biên trong (concave).
+	 	\item Nối các thành phần gần nhau (bridging).
+	 \end{itemize}
+	 
+	 \textbf{Giải thích hình:}
+	 
+	 
+	 \begin{itemize}
+	 	\item Hình bên trái: phần tử kết cấu \( B \) được dịch để làm đầy các vùng lõm.
+	 	\item Hình giữa: kết quả dilation – làm "phình" ảnh ra.
+	 	\item Hình phải: erosion lại giúp loại bỏ phần dư, giữ lại vùng lấp đầy vừa khít.
+	 \end{itemize}
+	 
+	 \section{Giải thích các ví dụ trong phần Grayscale Erosion (slide 11 và 12 Lecture 8 Cont)?}
+	 
+	 \subsection{Tổng Quát:}
+	 
+	 Phép \textbf{grayscale erosion} mở rộng khái niệm erosion nhị phân sang ảnh mức xám. Được định nghĩa như sau:
+	 
+	 \[
+	 (f \ominus b)(x, y) = \min_{(s,t) \in b} \{ f(x + s, y + t) - b(s, t) \}
+	 \]
+	 
+	 Trong đó:
+	 \begin{itemize}
+	 	\item $f(x, y)$ là ảnh mức xám gốc.
+	 	\item $b(s, t)$ là phần tử cấu trúc.
+	 	\item $(x, y)$ là điểm ảnh hiện tại.
+	 \end{itemize}
+	 
+	 \textbf{Tác dụng:} Làm giảm giá trị cường độ sáng tại các vùng biên, làm mờ biên đối tượng và làm nổi bật các vùng tối.
+	 
+	\subsection{Hình 1: Grayscale erosion trên ảnh con ngựa}
+	
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.6\textwidth]{images/31_1.png}
+		\caption{Grayscale erosion trên ảnh con ngựa}
+		\label{fig:erosion_horse}
+	\end{figure}
+	
+	\textbf{Giải thích:}
+	\begin{itemize}
+		\item Hình trên bên trái: ảnh gốc ban đầu.
+		\item Hình trên bên phải: kết quả sau khi áp dụng grayscale erosion.
+		\item Hình dưới: cho thấy độ tương phản ở các chi tiết nhỏ bị giảm rõ rệt.
+		\item Các cạnh sáng bị mòn đi, đặc biệt ở dây cương ngựa, do vùng sáng bị làm tối đi.
+		\item Hiệu ứng tổng thể là làm sắc nét hơn các vùng tối, thu gọn kích thước các vùng sáng.
+	\end{itemize}
+	
+	\subsection{Hình 2: Grayscale erosion loại bỏ nhiễu}
+	
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.9\textwidth]{images/31_2.png}
+		\caption{Grayscale erosion loại bỏ nhiễu và giữ lại các vùng tối lớn}
+		\label{fig:erosion_dots}
+	\end{figure}
+	
+	\textbf{Giải thích:}
+	\begin{itemize}
+		\item Dãy ảnh từ trái sang phải thể hiện tác dụng của erosion theo thời gian hoặc khi tăng kích thước phần tử cấu trúc.
+		\item Các nhiễu nhỏ, pixel tối lẻ tẻ bị loại bỏ dần do không đủ lớn để giữ lại.
+		\item Chỉ còn lại các cụm điểm tối thực sự có kích thước đáng kể (ví dụ: vết tròn đen ở hình bên phải).
+		\item Đây là bước tiền xử lý tốt trong các ứng dụng phát hiện vết bệnh, lỗi ảnh, hoặc chuẩn bị cho phân đoạn.
+	\end{itemize}
+	
 \end{document}

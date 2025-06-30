@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.5.10)  29 JUN 2025 22:30
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.5.10)  30 JUN 2025 08:47
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1276,21 +1276,70 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
-[34] (Introduction to image processing and applications.aux)
+[34]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[35]
+<images/31_1.png, id=485, 420.82219pt x 427.5975pt>
+File: images/31_1.png Graphic file (type png)
+<use images/31_1.png>
+Package pdftex.def Info: images/31_1.png  used on input line 1235.
+(pdftex.def)             Requested size: 258.00539pt x 262.15858pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<images/31_2.png, id=487, 714.41907pt x 171.64125pt>
+File: images/31_2.png Graphic file (type png)
+<use images/31_2.png>
+Package pdftex.def Info: images/31_2.png  used on input line 1253.
+(pdftex.def)             Requested size: 387.00153pt x 92.97821pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[36]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[37 <./images/31_1.png> <./images/31_2.png>]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[38] (Introduction to image processing and applications.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
  ***********
 Package rerunfilecheck Info: File `"Introduction to image processing and applic
 ations".out' has not changed.
-(rerunfilecheck)             Checksum: 06103E48690AC63CC8C09434C6334F2C;22696.
+(rerunfilecheck)             Checksum: E42C8C9D35B6208FDD8E1B8D066A6216;24650.
  ) 
 Here is how much of TeX's memory you used:
- 23988 strings out of 474486
- 437054 string characters out of 5753573
+ 24031 strings out of 474486
+ 437795 string characters out of 5753573
  1952542 words of memory out of 5000000
- 45748 multiletter control sequences out of 15000+600000
- 571755 words of font info for 60 fonts, out of 8000000 for 9000
+ 45778 multiletter control sequences out of 15000+600000
+ 573119 words of font info for 65 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  83i,12n,93p,1403b,681s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\Hieu\AppData\Local\MiKTeX\fonts/pk/ljfour/vntex/vnr/dpi600\vnr10.p
@@ -1311,10 +1360,10 @@ X/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Program Files/MiKTeX/fonts/type1
 nts/cm/cmr8.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.
 pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Progr
 am Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on "Introduction to image processing and applications.pdf" (34 p
-ages, 466251 bytes).
+Output written on "Introduction to image processing and applications.pdf" (38 p
+ages, 868767 bytes).
 PDF statistics:
- 1143 PDF objects out of 1200 (max. 8388607)
- 159 named destinations out of 1000 (max. 500000)
- 461 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1198 PDF objects out of 1200 (max. 8388607)
+ 172 named destinations out of 1000 (max. 500000)
+ 511 words of extra memory for PDF output out of 10000 (max. 10000000)
 
