@@ -13,14 +13,13 @@
 \usepackage{graphicx}
 \usepackage{array}
 \usepackage{caption}
-\usepackage{amsmath}
 \usepackage{longtable}
 \usepackage{tabularx}
-\usepackage{amsmath}
 \usepackage{enumitem}
-\usepackage{longtable}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
+\usepackage{float}
+\usepackage{ragged2e}
 \pagestyle{fancy}
 \fancyhf{}
 \rhead{Introduction to image processing and applications}
@@ -465,6 +464,102 @@
 	
 	\end{enumerate}
 	
+	\section{Viết giải thuật(code) tăng giá trị độ sáng của ảnh theo công thức}
+	
+	\begin{tcolorbox}[colback=gray!5!white, colframe=black, title=Pseudo-code]
+		Input: f(x,y), b, w, h\\
+		Output: g(x,y)
+		
+		\begin{verbatim}
+			Begin
+			For(x = 0; x < w; x++)
+			Begin
+			For(y = 0; y < h; y++)
+			Begin
+			// tăng độ sáng tại mỗi điểm ảnh
+			g(x,y) = f(x,y) + b 
+			// Ngăn g(x,y) vượt mức [0,255]
+			if(g(x,y) < 0)	 
+			g(x,y) = 0
+			// Ngăn g(x,y) vượt mức [0,255]
+			if(g(x,y) > 255) 
+			g(x,y) = 255
+			End
+			End
+			End
+		\end{verbatim}
+	\end{tcolorbox}
+	
+	\section{Vì sao lấy được hàm gradient tương đối bền vững với độ chiếu sáng}
+	
+	Trong xử lý ảnh, hàm gradient thường được sử dụng để phát hiện biên cạnh và mô tả cấu trúc cục bộ của ảnh. Một đặc điểm quan trọng là gradient có khả năng \textbf{tương đối bền vững với sự thay đổi của độ chiếu sáng}.
+	
+	\subsection{Mô hình thay đổi độ chiếu sáng}
+	
+	Giả sử ảnh gốc có giá trị cường độ $I(x, y)$ và ảnh sau khi thay đổi chiếu sáng là $I'(x, y)$, ta thường mô hình hóa sự thay đổi độ sáng toàn cục theo dạng tuyến tính:
+	
+	\[
+	I'(x, y) = \alpha \cdot I(x, y) + \beta
+	\]
+	
+	Trong đó:
+	\begin{itemize}
+		\item $\alpha$ là hệ số khuếch đại (độ tương phản),
+		\item $\beta$ là độ lệch (độ sáng).
+	\end{itemize}
+	
+	\subsection{Tính chất của gradient}
+	
+	Gradient là đạo hàm theo không gian, biểu diễn sự thay đổi cường độ theo hướng $x$ và $y$:
+	
+	\[
+	\nabla I(x, y) = \left( \frac{\partial I}{\partial x}, \frac{\partial I}{\partial y} \right)
+	\]
+	
+	Áp dụng vào ảnh đã thay đổi chiếu sáng:
+	
+	\[
+	\nabla I'(x, y) = \left( \frac{\partial (\alpha I + \beta)}{\partial x}, \frac{\partial (\alpha I + \beta)}{\partial y} \right)
+	= \alpha \cdot \left( \frac{\partial I}{\partial x}, \frac{\partial I}{\partial y} \right) = \alpha \cdot \nabla I(x, y)
+	\]
+	
+	\subsection{Ý nghĩa}
+	
+	\begin{itemize}
+		\item Khi ảnh bị thay đổi độ sáng đều (thêm bớt ánh sáng): $\beta$ không ảnh hưởng đến gradient (do đạo hàm của hằng số bằng 0).
+		\item Khi ảnh bị thay đổi độ tương phản ($\alpha$): gradient chỉ bị co giãn tuyến tính, không thay đổi hướng.
+		\item Nếu chỉ quan tâm đến \textbf{hướng gradient} (direction), thì gradient là \textbf{gần như bất biến} với thay đổi chiếu sáng.
+	\end{itemize}
+	
+	\section{Vì sao có thể làm object nổi bật so với background}
+	Việc làm nổi bật đối tượng (object) so với nền (background) dựa trên sự khác biệt về cường độ sáng, màu sắc hoặc đặc trưng hình học giữa object và background.
+	
+	\begin{itemize}
+		\item Nếu object và background có mức xám khác nhau rõ rệt, ta có thể áp dụng các kỹ thuật như \textbf{tăng cường độ tương phản}, \textbf{lọc biên}, hoặc \textbf{ngưỡng hóa} để tách object ra khỏi nền.
+		
+		\item Ví dụ: nếu object sáng hơn nền, ta có thể làm rõ object bằng cách làm sáng các pixel có cường độ cao hơn một ngưỡng nào đó.
+		
+		\item Ngoài ra, các phương pháp như \textbf{gradient}, \textbf{morphological operations}, hoặc \textbf{các phép toán hình thái học} có thể giúp xác định ranh giới object.
+	\end{itemize}
+	
+	\section{ Vì sao \texorpdfstring{$a \cdot f(x,y)$}{} làm tăng độ tương phản?}
+	
+	Giả sử \( f(x, y) \) là ảnh mức xám gốc và \( a > 1 \) là một hằng số.
+	
+	Khi thực hiện phép nhân:
+	
+	\[
+	f'(x, y) = a \cdot f(x, y)
+	\]
+	
+	thì:
+	
+	\begin{itemize}
+		\item Khoảng cách giữa các mức xám được \textbf{khuếch đại}, tức là phần chênh lệch giữa các vùng sáng và tối được mở rộng.
+		\item Điều này làm cho các vùng sáng trở nên sáng hơn và vùng tối trở nên tối hơn (nếu ảnh được chuẩn hóa lại), tức là \textbf{tăng độ tương phản}.
+		\item Trong không gian mức xám: giả sử có hai điểm ảnh \( f_1 = 50 \) và \( f_2 = 200 \), khi nhân với \( a = 1.5 \), ta được \( f_1' = 75 \), \( f_2' = 300 \), làm tăng khoảng cách giữa hai điểm này.
+	\end{itemize}
+	
 	\section{Điểm thuộc biên cạnh là điểm như thế nào?}
 	
 	$\rightarrow$ Điểm biên cạnh là nơi mà \textbf{gradient cường độ ảnh} đạt cực đại — tức là nơi độ biến thiên của ảnh theo không gian là lớn nhất.
@@ -571,6 +666,44 @@
 	
 	Do đó, các toán tử như Sobel, Prewitt hiệu quả và ổn định hơn nhiều so với phép hiệu đơn giản hai điểm.
 	
+	\section{So sánh 3 phương pháp: lọc trung bình, lọc phương pháp có trọng số, lọc trung vị (nguyên lý, phương pháp, khả năng khử nhiễu, bảo toàn biên cạnh, độ phức tạp tính toán)}
+	
+	\begin{table}[H]
+		\centering
+		\renewcommand{\arraystretch}{1.4}
+		\begin{tabular}{|p{3.8cm}|p{4.1cm}|p{4.1cm}|p{4.1cm}|}
+			\hline
+			\textbf{Tiêu chí} & \textbf{Averaging filter} & \textbf{Gaussian filter} & \textbf{Median filter} \\
+			\hline
+			Nguyên lý & Tính giá trị trung bình của các pixel lân cận. & Làm mờ bằng phân phối chuẩn (Gaussian). & Chọn giá trị trung vị trong cửa sổ lân cận. \\
+			\hline
+			Phương pháp &
+			\scriptsize
+			\makecell[l]{
+				$g(x, y) = \sum_{i} \sum_{j} f(x - i, y - j) \cdot h(i, j),$\\
+				$(i,j) \in \mathcal{O}$
+			} &
+			\scriptsize
+			\makecell[l]{
+				$h(i, j) = \dfrac{1}{\sqrt{2\pi} \alpha} \, \exp{\left(-\dfrac{i^2 + j^2}{2\alpha^2}\right)}$
+			} &
+			\scriptsize
+			\makecell[l]{
+				$g(x,y) = \mathrm{median}\{f(x+i,y+j),$\\
+				$(i,j) \in \mathcal{O}\}$
+			} \\
+			\hline
+			Khả năng khử nhiễu & Tốt với nhiễu Gauss nhẹ, yếu với nhiễu muối tiêu. & Tốt với nhiễu Gauss. & Rất tốt với nhiễu muối tiêu. \\
+			\hline
+			Bảo toàn biên cạnh & Kém, làm mờ cạnh rõ rệt. & Tốt hơn lọc trung bình, nhưng vẫn làm mờ cạnh nhẹ. & Rất tốt, giữ biên cạnh rõ nét. \\
+			\hline
+			Độ phức tạp tính toán & Thấp: $O(k^2)$ với kernel $k \times k$. & Trung bình: $O(k^2)$, có thể tối ưu bằng separable filters. & Cao hơn: cần sắp xếp giá trị trong cửa sổ $O(k^2 \log k)$. \\
+			\hline
+			Ứng dụng phù hợp & Làm mờ ảnh, loại bỏ nhiễu nhẹ. & Làm mờ ảnh mượt hơn, khử nhiễu Gaussian. & Xử lý ảnh chứa nhiễu xung, bảo toàn cấu trúc ảnh. \\
+			\hline
+		\end{tabular}
+	\end{table}
+	
 	\section{Chứng mình toán tử Laplace bất biến với phép quay?}
 	
 	\subsection{Toán tử Laplace trong không gian 2 chiều}
@@ -614,6 +747,57 @@
 	
 	\textbf{Do đó, toán tử Laplace là bất biến đối với phép quay.} Tức là giá trị của Laplacian tại một điểm không thay đổi khi xoay hệ tọa độ. Điều này làm cho Laplacian trở thành công cụ quan trọng trong việc phát hiện điểm ảnh nổi bật (như biên cạnh hoặc điểm đặc trưng) mà không phụ thuộc vào hướng quay của ảnh.
 	
+	\section{Rời rạc hóa toán tử Laplace}
+	
+	\subsection{Toán tử Laplace liên tục}
+	
+	Toán tử Laplace là một toán tử vi phân bậc hai, thường dùng trong vật lý và xử lý ảnh để mô tả sự thay đổi không gian của một trường vô hướng. Trong không gian 2 chiều, toán tử Laplace được định nghĩa như sau:
+	\[
+	\Delta f = \nabla^2 f = \frac{\partial^2 f}{\partial x^2} + \frac{\partial^2 f}{\partial y^2}
+	\]
+	
+	\subsection{Rời rạc hóa bằng phương pháp sai phân hữu hạn}
+	
+	Để áp dụng toán tử Laplace trên ảnh số (dạng lưới rời rạc), ta sử dụng phương pháp sai phân hữu hạn. Giả sử $f(x,y)$ là ảnh số và $(i,j)$ là chỉ số pixel, đạo hàm bậc hai được xấp xỉ như sau:
+	
+	\[
+	\frac{\partial^2 f}{\partial x^2} \approx f(i+1,j) - 2f(i,j) + f(i-1,j)
+	\]
+	\[
+	\frac{\partial^2 f}{\partial y^2} \approx f(i,j+1) - 2f(i,j) + f(i,j-1)
+	\]
+	
+	Khi đó, toán tử Laplace rời rạc được viết:
+	\[
+	\nabla^2 f(i,j) \approx f(i+1,j) + f(i-1,j) + f(i,j+1) + f(i,j-1) - 4f(i,j)
+	\]
+	
+	\subsection{Biểu diễn bằng kernel tích chập}
+	
+	Trong xử lý ảnh, toán tử Laplace rời rạc có thể được áp dụng bằng cách tích chập (convolution) với kernel (mặt nạ) sau:
+	
+	\begin{center}
+		\begin{tabular}{|c|c|c|}
+			\hline
+			0 & 1 & 0 \\
+			\hline
+			1 & -4 & 1 \\
+			\hline
+			0 & 1 & 0 \\
+			\hline
+		\end{tabular}
+		\quad hoặc \quad
+		\begin{tabular}{|c|c|c|}
+			\hline
+			1 & 1 & 1 \\
+			\hline
+			1 & -8 & 1 \\
+			\hline
+			1 & 1 & 1 \\
+			\hline
+		\end{tabular}
+	\end{center}
+		4
 	\section{Xác định hệ số Laplace of Gausian (LoG) để chập với f, lấy kernel lớn hơn (3x3). Giải thích tại sao dùng 3x3 lại khó sử dụng trong trường hợp này (Nếu có thể)?  }
 	
 	Laplacian of Gaussian (LoG) là toán tử dùng để phát hiện biên bằng cách kết hợp làm mượt (Gaussian) và đạo hàm bậc hai (Laplacian):
@@ -734,6 +918,8 @@
 	\textbf{Phạm vi ứng dụng} & Phát hiện cạnh đơn giản, xử lý ảnh thời gian thực. & Tăng cường ảnh, xác định vùng thay đổi mạnh. & Các ứng dụng yêu cầu phát hiện cạnh chính xác hơn (Canny Edge Detector là một ví dụ mở rộng của LoG). \\
 	\bottomrule
 	\end{longtable}
+	
+	
 	
 	\section{Viết giải thuật thực hiện phân đoạn vùng?}
 	
@@ -1262,5 +1448,7 @@
 		\item Chỉ còn lại các cụm điểm tối thực sự có kích thước đáng kể (ví dụ: vết tròn đen ở hình bên phải).
 		\item Đây là bước tiền xử lý tốt trong các ứng dụng phát hiện vết bệnh, lỗi ảnh, hoặc chuẩn bị cho phân đoạn.
 	\end{itemize}
+	
+	
 	
 \end{document}
